@@ -4,17 +4,13 @@ import com.lambdaschool.bookstore.BookstoreApplication;
 import com.lambdaschool.bookstore.exceptions.ResourceNotFoundException;
 import com.lambdaschool.bookstore.models.Book;
 import com.lambdaschool.bookstore.models.Section;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.junit.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BookstoreApplication.class)
@@ -47,52 +43,52 @@ public class BookServiceImplTest
     }
 
     @Test
-    public void B_findAll()
+    public void findAll()
     {
-        Assert.assertEquals(5, bookService.findAll().size());
+        Assert.assertEquals(4, bookService.findAll().size());
     }
 
     @Test
     public void findBookById()
     {
-        Assert.assertEquals("Flatterland", bookService.findBookById(26).getTitle());
+        Assert. assertEquals("Flatterland", bookService.findBookById(26).getTitle());
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void notFindBookById()
     {
+        Assert.assertEquals("Flatterland", bookService.findBookById(100).getTitle());
     }
 
     @Test
     public void delete()
     {
-        bookService.delete(26);
-        Assert.assertEquals("Flatterlands", bookService.findBookById(26));
+        bookService.delete(27);
+        Assert.assertEquals(4, bookService.findAll().size());
     }
 
     @Test
     public void save()
     {
-        Section fiction = new Section("Fiction");
-        sectionService.save(fiction);
-        fiction.setSectionid(21);
-        String bookName = "Calling Houston Home";
-        Book b6 = new Book(bookName, "1885171384134", 2001, fiction);
-        bookService.save(b6);
-        Book addBook = bookService.save(b6);
-        Assert.assertNotNull(addBook);
-        Assert.assertEquals(bookName, addBook.getTitle());
+        Section s1 = new Section("Fiction");
+        s1.setSectionid(21);
+
+        Book b1 = new Book("Lauren's book", "9780738206555", 2020, s1);
+        b1 = bookService.save(b1);
+
+        Assert.assertEquals("Lauren's book", b1.getTitle());
     }
 
-    @Test
-    public void update()
-    {
-    }
-
-    @Test
-    public void deleteAll()
-    {
-        bookService.deleteAll();
-        Assert.assertEquals(0, bookService.findAll().size());
-    }
+//    @Test
+//    public void G_update()
+//    {
+//    }
+//
+//
+//    @Test
+//    public void ZY_deleteAll()
+//    {
+//        bookService.deleteAll();
+//        Assert.assertEquals(0, bookService.findAll().size());
+//    }
 }

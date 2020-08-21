@@ -111,7 +111,7 @@
     </dependencies>
 
     <build>
-        <finalName>jrmmba-oauth2</finalName>
+        <finalName>myfinaltest-oauth2</finalName>
 
         <plugins>
             <plugin>
