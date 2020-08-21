@@ -55,7 +55,7 @@ public class ResourceServerConfig
                 //http://localhost:2019/books/books
                 //and
                 //"/books/book/**"
-                .antMatchers("/books/books","/books/book/**").hasAnyRole("ADMIN","DATA") //GET access to admin and data
+                .antMatchers("/books/books","/books/book/**").hasAnyRole("ADMIN","data") //GET access to admin and data
                 .antMatchers(HttpMethod.POST,"/books/book").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,"/books/book/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/books/book/**").hasAnyRole("ADMIN")
