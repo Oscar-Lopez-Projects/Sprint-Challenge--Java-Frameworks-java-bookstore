@@ -1,6 +1,7 @@
 package com.lambdaschool.bookstore.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -50,15 +51,19 @@ public class ResourceServerConfig
                              "/swagger-ui.html",
                              "/v2/api-docs",
                              "/webjars/**",
-                             "/createnewuser")
-                .permitAll()
+                             "/createnewuser").permitAll()
+                //http://localhost:2019/books/books
+                //and
+                //"/books/book/**"
+                .antMatchers("/books/books","/books/book/**").hasAnyRole("ADMIN","DATA") //GET access to admin and data
+                .antMatchers(HttpMethod.POST,"/books/book").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/books/book/**").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/books/book/**").hasAnyRole("ADMIN")
+
                 .antMatchers("/users/**",
                              "/useremails/**",
                              "/oauth/revoke-token",
-                             "/logout")
-                .authenticated()
-                .antMatchers("/roles/**")
-                .hasAnyRole("ADMIN", "DATA")
+                             "/logout").authenticated()
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new OAuth2AccessDeniedHandler());
